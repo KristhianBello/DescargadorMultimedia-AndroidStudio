@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Descargador Multimedia</string>
+
+    <!-- Header -->
+    <string name="app_title_part1">Descargador</string>
+    <string name="app_title_part2">Multimedia</string>
+
+    <!-- Input Section -->
+    <string name="input_label">Ingresa la URL</string>
+    <string name="input_hint">https://...</string>
+    <string name="btn_get_info">OBTENER INFORMACIÓN</string>
+
+    <!-- Info Section -->
+    <string name="info_label">Información del contenido</string>
+    <string name="info_placeholder">La información aparecerá aquí</string>
+
+    <!-- Download Section -->
+    <string name="download_label">Descargar como</string>
+    <string name="btn_download_mp4">🎬 MP4</string>
+    <string name="btn_download_mp3">🎵 MP3</string>
+
+    <!-- Messages -->
+    <string name="error_empty_url">Pega una URL primero</string>
+    <string name="download_completed">Descarga completada</string>
+    <string name="permissions_granted">Permisos otorgados</string>
+    <string name="permissions_denied">Permisos denegados</string>
+</resources>

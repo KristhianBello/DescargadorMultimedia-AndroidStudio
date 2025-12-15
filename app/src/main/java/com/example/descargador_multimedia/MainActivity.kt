@@ -31,8 +31,12 @@ import java.io.InputStream
 
 class MainActivity : AppCompatActivity() {
 
-    // Cambia esta IP
-    private val BASE_URL = "http://192.168.1.48:8000"
+    // ⚠️ IMPORTANTE: IP de tu máquina en la red local
+    // Tienes dos opciones:
+    // - 192.168.1.5 (Ethernet - Cable)
+    // - 192.168.1.6 (WiFi - Inalámbrico) ← RECOMENDADO
+    // Asegúrate que el servidor está corriendo: python -m http.server 8000
+    private val BASE_URL = "http://192.168.1.6:8000"
 
     private lateinit var urlEdit: EditText
     private lateinit var btnGetInfo: Button
@@ -123,7 +127,10 @@ class MainActivity : AppCompatActivity() {
                     Log.d("testConnection", "Headers: ${response.headers}")
 
                     withContext(Dispatchers.Main) {
-                        // Conexión exitosa, sin mostrar mensaje
+                        // Mostrar que está conectado
+                        Toast.makeText(this@MainActivity, "✅ Servidor conectado", Toast.LENGTH_SHORT).show()
+                        @Suppress("SetTextI18n")
+                        infoText.text = "✅ Conectado a $BASE_URL"
                     }
                 }
             } catch (e: java.net.ConnectException) {
@@ -132,7 +139,8 @@ class MainActivity : AppCompatActivity() {
 
                 withContext(Dispatchers.Main) {
                     @Suppress("SetTextI18n")
-                    infoText.text = "❌ Error de Conexión\n\nNo se puede conectar a:\n$BASE_URL\n\nVerifica:\n✓ Servidor en 192.168.1.48:8000\n✓ En la misma red WiFi\n✓ Firewall permitiendo puerto 8000"
+                    infoText.text = "❌ Error de conexión\n\nNo se puede conectar a:\n$BASE_URL\n\nVerifica:\n1. Servidor activo\n2. IP correcta\n3. Misma red WiFi"
+                    Toast.makeText(this@MainActivity, "❌ No se conecta al servidor", Toast.LENGTH_LONG).show()
                 }
             } catch (e: java.net.UnknownHostException) {
                 Log.e("testConnection", "❌ ERROR DE HOST: No se puede resolver la IP")
@@ -140,7 +148,8 @@ class MainActivity : AppCompatActivity() {
 
                 withContext(Dispatchers.Main) {
                     @Suppress("SetTextI18n")
-                    infoText.text = "❌ IP no disponible\n\nNo se puede resolver:\n192.168.1.48\n\nVerifica la IP con:\nipconfig"
+                    infoText.text = "❌ Error: IP no disponible\n\nNo se puede resolver: $BASE_URL\n\nVerifica la IP con:\nipconfig"
+                    Toast.makeText(this@MainActivity, "❌ IP no resuelta", Toast.LENGTH_LONG).show()
                 }
             } catch (e: java.net.SocketTimeoutException) {
                 Log.e("testConnection", "❌ TIMEOUT: Servidor tardó demasiado en responder")
@@ -148,7 +157,8 @@ class MainActivity : AppCompatActivity() {
 
                 withContext(Dispatchers.Main) {
                     @Suppress("SetTextI18n")
-                    infoText.text = "⏱️ Timeout\n\nEl servidor en $BASE_URL no responde en tiempo.\n\nVerifica que esté activo."
+                    infoText.text = "⏱️ Timeout\n\nEl servidor tardó demasiado"
+                    Toast.makeText(this@MainActivity, "⏱️ Timeout de conexión", Toast.LENGTH_LONG).show()
                 }
             } catch (e: Exception) {
                 Log.e("testConnection", "❌ ERROR INESPERADO: ${e::class.simpleName}")
@@ -157,6 +167,7 @@ class MainActivity : AppCompatActivity() {
                 withContext(Dispatchers.Main) {
                     @Suppress("SetTextI18n")
                     infoText.text = "❌ Error: ${e.message ?: "Desconocido"}"
+                    Toast.makeText(this@MainActivity, "❌ ${e.message ?: "Error desconocido"}", Toast.LENGTH_LONG).show()
                 }
             }
 
@@ -332,21 +343,21 @@ class MainActivity : AppCompatActivity() {
             } catch (e: Exception) {
                 e.printStackTrace()
                 Log.e("downloadFromBackend", "Excepción: ${e.message}", e)
-                withContext(Dispatchers.Main) {
-                    progressBar?.visibility = ProgressBar.GONE
-                    val errorMsg = when (e) {
-                        is java.net.ConnectException -> "No se puede conectar a $BASE_URL"
-                        is java.net.UnknownHostException -> "Error: No se puede resolver $BASE_URL"
-                        is java.net.SocketTimeoutException -> "Tiempo de conexión agotado"
-                        else -> e.localizedMessage ?: e.message
+                    withContext(Dispatchers.Main) {
+                        progressBar?.visibility = ProgressBar.GONE
+                        val errorMsg = when (e) {
+                            is java.net.ConnectException -> "No se puede conectar a $BASE_URL"
+                            is java.net.UnknownHostException -> "Error: No se puede resolver $BASE_URL"
+                            is java.net.SocketTimeoutException -> "Tiempo de conexión agotado"
+                            else -> e.localizedMessage ?: e.message
+                        }
+                        @Suppress("SetTextI18n")
+                        progressText?.text = "Error: $errorMsg"
+                        @Suppress("SetTextI18n")
+                        infoText.text = ""
+                        btnMp4.isEnabled = true
+                        btnMp3.isEnabled = true
                     }
-                    @Suppress("SetTextI18n")
-                    progressText?.text = "Error: $errorMsg"
-                    @Suppress("SetTextI18n")
-                    infoText.text = "Información del contenido"
-                    btnMp4.isEnabled = true
-                    btnMp3.isEnabled = true
-                }
             }
         }
     }

@@ -34,9 +34,9 @@ class MainActivity : AppCompatActivity() {
     // ⚠️ IMPORTANTE: IP de tu máquina en la red local
     // Tienes dos opciones:
     // - 192.168.1.5 (Ethernet - Cable)
-    // - 192.168.1.6 (WiFi - Inalámbrico) ← RECOMENDADO
-    // Asegúrate que el servidor está corriendo: python -m http.server 8000
-    private val BASE_URL = "http://192.168.1.6:8000"
+    // - 192.168.1.13 (WiFi - Inalámbrico) ← CONECTADO ACTUALMENTE
+    // Asegúrate que el servidor está corriendo: python run_server.py
+    private val BASE_URL = "http://192.168.1.13:8000"
 
     private lateinit var urlEdit: EditText
     private lateinit var btnGetInfo: Button

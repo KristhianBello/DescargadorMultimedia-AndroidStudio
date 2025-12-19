@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
+    <!-- Permitir conexiones HTTP a IP local (WiFi) -->
     <domain-config cleartextTrafficPermitted="true">
-        <domain includeSubdomains="true">192.168.1.48</domain>
+        <domain includeSubdomains="true">192.168.1.6</domain>
     </domain-config>
+    <!-- Permitir conexiones HTTP a IP local (Ethernet/Cable) -->
+    <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">192.168.1.5</domain>
+    </domain-config>
+    <!-- Permitir conexiones HTTP a localhost -->
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">localhost</domain>
     </domain-config>

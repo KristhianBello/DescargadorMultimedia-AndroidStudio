@@ -19,6 +19,14 @@
             </PendingDiffInfo>
           </value>
         </entry>
+        <entry key="$PROJECT_DIR$/REFERENCIA_RAPIDA.txt">
+          <value>
+            <PendingDiffInfo>
+              <option name="filePath" value="$PROJECT_DIR$/REFERENCIA_RAPIDA.txt" />
+              <option name="updatedContent" value="# ⚡ REFERENCIA RÁPIDA&#10;&#10;##  EXPLICAR EN 30 SEGUNDOS&#10;&#10;&gt; La app Android pide videos a un servidor Python en `192.168.1.6:8000`. &#10;&gt; El servidor descarga videos de YouTube y los convierte a MP3 si es necesario. &#10;&gt; La app muestra el progreso y guarda los archivos en el teléfono.&#10;&#10;---&#10;&#10;##  LOS 3 ENDPOINTS&#10;&#10;```&#10;GET  /               → Verificar servidor OK&#10;POST /info          → Retornar {&quot;title&quot;: &quot;...&quot;}&#10;POST /download      → Retornar archivo binario&#10;```&#10;&#10;---&#10;&#10;##  CÓDIGO MÍNIMO (Python Flask)&#10;&#10;```python&#10;from flask import Flask, request, jsonify, send_file&#10;import yt_dlp&#10;&#10;app = Flask(__name__)&#10;&#10;@app.route('/', methods=['GET'])&#10;def home():&#10;    return &quot;ok&quot;, 200&#10;&#10;@app.route('/info', methods=['POST'])&#10;def info():&#10;    url = request.form.get('url')&#10;    with yt_dlp.YoutubeDL() as ydl:&#10;        info = ydl.extract_info(url, download=False)&#10;    return jsonify({'title': info.get('title')}), 200&#10;&#10;@app.route('/download', methods=['POST'])&#10;def download():&#10;    url = request.form.get('url')&#10;    to_mp3 = request.form.get('to_mp3') == 'true'&#10;    # ... procesar con yt-dlp ...&#10;    return send_file(file_path, as_attachment=True)&#10;&#10;app.run(host='0.0.0.0', port=8000)&#10;```&#10;&#10;---&#10;&#10;## ✅ CHECKLIST MÍNIMO&#10;&#10;- [ ] pip install yt-dlp flask&#10;- [ ] Copiar código arriba&#10;- [ ] python app.py&#10;- [ ] curl http://192.168.1.6:8000/&#10;- [ ] Ver &quot;✅ Conectado&quot; en la app&#10;&#10;---&#10;&#10;##  ERROR → SOLUCIÓN&#10;&#10;| Error | Solución |&#10;|-------|----------|&#10;| No conecta | `python app.py` |&#10;| IP error | 192.168.1.6 |&#10;| Timeout | Servidor lento |&#10;| Error 400 | URL inválida |&#10;| Error 500 | Ver logs Python |&#10;&#10;---&#10;&#10;##  ARCHIVOS QUE NECESITAS&#10;&#10;1. **PARA_EL_BACKEND.md** ← Más detalles&#10;2. **GUIA_BACKEND_REQUERIMIENTOS.md** ← Especificación&#10;3. Este archivo ← Referencia rápida&#10;&#10;" />
+            </PendingDiffInfo>
+          </value>
+        </entry>
         <entry key="$PROJECT_DIR$/diagnose_backend.ps1">
           <value>
             <PendingDiffInfo>
